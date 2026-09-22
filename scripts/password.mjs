@@ -1,0 +1,12 @@
+import {randomBytes,scryptSync} from 'node:crypto';
+import {createInterface} from 'node:readline/promises';
+if (!process.stdin.isTTY) throw new Error('로컬 대화형 터미널에서 실행하세요.');
+const rl=createInterface({input:process.stdin,output:process.stdout});
+console.log('관리자 비밀번호는 화면에 표시되지 않습니다.');
+rl._writeToOutput=()=>{};
+process.stdout.write('비밀번호 (12자 이상): ');
+const password=await rl.question(''); rl.close(); process.stdout.write('\n');
+if(password.length<12 || password.length>256) throw new Error('12~256자 비밀번호를 사용하세요.');
+const salt=randomBytes(24).toString('hex');
+console.log('ADMIN_PASSWORD_HASH='+salt+':'+scryptSync(password,salt,64).toString('hex'));
+console.log('SESSION_SECRET='+randomBytes(48).toString('hex'));
