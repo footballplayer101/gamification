@@ -29,7 +29,7 @@ export function parseCSV(text:string) {
 }
 export function validatePeriod(start:string,end:string,filename:string) {
   const today = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-  if (start !== EVENT.start || !/^\d{4}-\d{2}-\d{2}$/.test(end) || end < start || end > EVENT.end || end > today) throw new Error('집계 기간은 2026-10-06부터 오늘(최대 10/30)까지여야 합니다.');
+  if (start !== EVENT.start || !/^\d{4}-\d{2}-\d{2}$/.test(end) || end < start || end > EVENT.end || end > today) throw new Error('집계 기간은 2026-10-06부터 오늘(최대 10/28)까지여야 합니다.');
   const dates = filename.match(/(\d{4}-\d{2}-\d{2})_to_(\d{4}-\d{2}-\d{2})/);
   if (dates && (dates[1] !== start || dates[2] !== end)) throw new Error('파일명에 표시된 보고서 기간과 선택한 집계 기간이 다릅니다.');
 }
